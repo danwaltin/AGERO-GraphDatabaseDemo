@@ -84,6 +84,7 @@
     <Compile Include="Bindings\Persons\PersonReader.cs" />
     <Compile Include="Bindings\Persons\PersonWriter.cs" />
     <Compile Include="Bindings\ScenarioContextDependencyInjectionExtensions.cs" />
+    <Compile Include="Bindings\SpecFlowHooks.cs" />
     <Compile Include="KeyExamples\Persons\Persons.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

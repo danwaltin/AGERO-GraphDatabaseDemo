@@ -6,21 +6,21 @@ using Agero.GraphDatabaseDemo.Repository;
 
 namespace Agero.GraphDatabaseDemo.Controllers {
 	public class PersonsController : ApiController {
-		private readonly IPersonRepository _personRepository;
+		private readonly IRepository _personRepository;
 
-		public PersonsController(IPersonRepository personRepository) {
+		public PersonsController(IRepository personRepository) {
 			_personRepository = personRepository;
 		}
 
 		[HttpPost]
 		public IHttpActionResult Create(CreatePerson command) {
-			_personRepository.Create(command);
+			_personRepository.CreatePerson(command);
 			return Ok();
 		}
 
 		[HttpGet]
 		public IEnumerable<Person> List() {
-			return _personRepository.List();
+			return _personRepository.ListPersons();
 		}
 	}
 }

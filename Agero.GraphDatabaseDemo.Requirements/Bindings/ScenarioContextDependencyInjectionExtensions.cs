@@ -6,9 +6,9 @@ using TechTalk.SpecFlow;
 namespace Agero.GraphDatabaseDemo.Requirements.Bindings {
 	public static class ScenarioContextDependencyInjectionExtensions {
 		public static PersonsController PersonsController(this ScenarioContext context) =>
-			Resolve<PersonsController>(context);
+			context.Resolve<PersonsController>();
 
-		public static T Resolve<T>(ScenarioContext context) {
+		public static T Resolve<T>(this ScenarioContext context) {
 			var container = AutofacContainer(context);
 			return container.Resolve<T>();
 		}
@@ -30,7 +30,7 @@ namespace Agero.GraphDatabaseDemo.Requirements.Bindings {
 			builder.Register(_ => new RepositoryConfiguration {
 				Url = "bolt://localhost:7687",
 				Username = "neo4j",
-				Password = "agerounittest"
+				Password = "agero"
 			}).As<RepositoryConfiguration>();
 
 			return builder.Build();

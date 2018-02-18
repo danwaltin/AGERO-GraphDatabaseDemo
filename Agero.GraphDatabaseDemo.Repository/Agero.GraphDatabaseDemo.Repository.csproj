@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Neo4j.Driver, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Neo4j.Driver.1.5.2\lib\net452\Neo4j.Driver.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IPersonRepository.cs" />
+    <Compile Include="IRepository.cs" />
     <Compile Include="Neo4j\Neo4JRepository.cs" />
     <Compile Include="Neo4j\RepositoryConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,6 +57,9 @@
       <Project>{526289DF-2F4A-4DDF-9966-A6FB2065C8FC}</Project>
       <Name>Agero.GraphDatabaseDemo.Dto</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -11,7 +11,7 @@ namespace Agero.GraphDatabaseDemo {
 		public static void RegisterGraphDemoTypes(this ContainerBuilder builder) {
 			builder.RegisterApiControllers(WebApiAssembly());
 
-			builder.RegisterType<Neo4JRepository>().As<IPersonRepository>();
+			builder.RegisterType<Neo4JRepository>().As<IRepository>();
 			builder.Register(_ => new RepositoryConfiguration {
 				Url = ConfigurationManager.AppSettings["url"],
 				Username = ConfigurationManager.AppSettings["username"],
