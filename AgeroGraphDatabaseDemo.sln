@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgeroGraphDatabaseDemo", "AgeroGraphDatabaseDemo\AgeroGraphDatabaseDemo.csproj", "{DAE8DD9F-F261-408C-8340-980755C20BFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgeroGraphDatabaseDemo.Requirements", "AgeroGraphDatabaseDemo.Requirements\AgeroGraphDatabaseDemo.Requirements.csproj", "{F8A9E4DC-9055-4D0C-AAE0-AC06C4BAA605}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgeroGraphDatabaseDemo.Requirements", "AgeroGraphDatabaseDemo.Requirements\AgeroGraphDatabaseDemo.Requirements.csproj", "{F23B71EB-F5DD-4D63-983E-4F482771F54B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{DAE8DD9F-F261-408C-8340-980755C20BFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAE8DD9F-F261-408C-8340-980755C20BFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAE8DD9F-F261-408C-8340-980755C20BFA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8A9E4DC-9055-4D0C-AAE0-AC06C4BAA605}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8A9E4DC-9055-4D0C-AAE0-AC06C4BAA605}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8A9E4DC-9055-4D0C-AAE0-AC06C4BAA605}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8A9E4DC-9055-4D0C-AAE0-AC06C4BAA605}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F23B71EB-F5DD-4D63-983E-4F482771F54B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F23B71EB-F5DD-4D63-983E-4F482771F54B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F23B71EB-F5DD-4D63-983E-4F482771F54B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F23B71EB-F5DD-4D63-983E-4F482771F54B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
