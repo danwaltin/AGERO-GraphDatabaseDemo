@@ -103,6 +103,7 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\MoviesController.cs" />
     <Compile Include="Controllers\PersonsController.cs" />
     <Compile Include="DependencyInjectionExtensions.cs" />
     <Compile Include="Global.asax.cs">
