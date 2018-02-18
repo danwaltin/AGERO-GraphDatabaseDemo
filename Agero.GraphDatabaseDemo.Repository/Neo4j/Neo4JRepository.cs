@@ -37,6 +37,24 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 			return GetNodes(statement, returnKey).Select(node => new Person { Name = node.Properties["name"].ToString() }).ToList();
 		}
 
+		public void CreateMovie(CreateMovie command) {
+			using (var driver = Driver) {
+				using (var session = driver.Session()) {
+					using (var transaction = session.BeginTransaction()) {
+						var statement = $"CREATE (x:Movie {{title: \"{command.Title}\"}}) RETURN x";
+						transaction.Run(statement);
+						transaction.Success();
+					}
+				}
+			}
+		}
+
+		public IEnumerable<Movie> ListMovies() {
+			var statement = $"MATCH (n:Movie) RETURN n";
+			const string returnKey = "n";
+			return GetNodes(statement, returnKey).Select(node => new Movie { Title = node.Properties["title"].ToString() }).ToList();
+		}
+
 		public void Clear() {
 			using (var driver = Driver) {
 				using (var session = driver.Session()) {

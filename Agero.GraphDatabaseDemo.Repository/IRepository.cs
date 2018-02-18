@@ -7,6 +7,9 @@ namespace Agero.GraphDatabaseDemo.Repository {
 		void CreatePerson(CreatePerson command);
 		IEnumerable<Person> ListPersons();
 
+		void CreateMovie(CreateMovie command);
+		IEnumerable<Movie> ListMovies();
+
 		void Clear();
 	}
 }
