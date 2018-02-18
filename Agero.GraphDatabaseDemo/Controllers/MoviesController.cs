@@ -5,22 +5,22 @@ using Agero.GraphDatabaseDemo.Dto;
 using Agero.GraphDatabaseDemo.Repository;
 
 namespace Agero.GraphDatabaseDemo.Controllers {
-	public class PersonsController : ApiController {
+	public class MoviesController : ApiController {
 		private readonly IRepository _repository;
 
-		public PersonsController(IRepository repository) {
+		public MoviesController(IRepository repository) {
 			_repository = repository;
 		}
 
 		[HttpPost]
-		public IHttpActionResult Create(CreatePerson command) {
-			_repository.CreatePerson(command);
+		public IHttpActionResult Create(CreateMovie command) {
+			_repository.CreateMovie(command);
 			return Ok();
 		}
 
 		[HttpGet]
-		public IEnumerable<Person> List() {
-			return _repository.ListPersons();
+		public IEnumerable<Movie> List() {
+			return _repository.ListMovies();
 		}
 	}
 }

@@ -8,6 +8,9 @@ namespace Agero.GraphDatabaseDemo.Requirements.Bindings {
 		public static PersonsController PersonsController(this ScenarioContext context) =>
 			context.Resolve<PersonsController>();
 
+		public static MoviesController MoviesController(this ScenarioContext context) =>
+			context.Resolve<MoviesController>();
+
 		public static T Resolve<T>(this ScenarioContext context) {
 			var container = AutofacContainer(context);
 			return container.Resolve<T>();

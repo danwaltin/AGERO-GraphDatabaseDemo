@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Agero.GraphDatabaseDemo.Commands;
 using Agero.GraphDatabaseDemo.Dto;
@@ -14,27 +15,20 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 			_configuration = configuration;
 		}
 
-		private IDriver Driver =>
-			GraphDatabase.Driver(
-				_configuration.Url,
-				AuthTokens.Basic(_configuration.Username, _configuration.Password));
-
 		public void CreatePerson(CreatePerson command) {
-			using (var driver = Driver) {
-				using (var session = driver.Session()) {
-					using (var transaction = session.BeginTransaction()) {
-						var statement = $"CREATE (x:Person {{name: \"{command.Name}\"}}) RETURN x";
-						transaction.Run(statement);
-						transaction.Success();
-					}
-				}
-			}
+			Create($"CREATE (x:Person {{name: \"{command.Name}\"}}) RETURN x");
 		}
 
 		public IEnumerable<Person> ListPersons() {
-			var statement = $"MATCH (n:Person) RETURN n";
-			const string returnKey = "n";
-			return GetNodes(statement, returnKey).Select(node => new Person { Name = node.Properties["name"].ToString() }).ToList();
+			return List("MATCH (n:Person) RETURN n", "n", Person);
+		}
+
+		public void CreateMovie(CreateMovie command) {
+			Create($"CREATE (x:Movie {{title: \"{command.Title}\"}}) RETURN x");
+		}
+
+		public IEnumerable<Movie> ListMovies() {
+			return List("MATCH (n:Movie) RETURN n", "n", Movie);
 		}
 
 		public void Clear() {
@@ -44,6 +38,34 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 					DeleteIndices(session);
 				}
 			}
+		}
+
+		private IDriver Driver =>
+			GraphDatabase.Driver(
+				_configuration.Url,
+				AuthTokens.Basic(_configuration.Username, _configuration.Password));
+
+		private void Create(string statement) {
+			using (var driver = Driver) {
+				using (var session = driver.Session()) {
+					using (var transaction = session.BeginTransaction()) {
+						transaction.Run(statement);
+						transaction.Success();
+					}
+				}
+			}
+		}
+
+		private Person Person(INode node) {
+			return new Person { Name = node.Properties["name"].ToString() };
+		}
+
+		private Movie Movie(INode node) {
+			return new Movie { Title = node.Properties["title"].ToString() };
+		}
+
+		private IEnumerable<T> List<T>(string statement, string returnKey, Func<INode, T> create) {
+			return GetNodes(statement, returnKey).Select(create).ToList();
 		}
 
 		public IReadOnlyList<INode> GetNodes(string statement, string returnKey) {

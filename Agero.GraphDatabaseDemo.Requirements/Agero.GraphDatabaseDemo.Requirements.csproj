@@ -78,6 +78,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bindings\Movies\MovieAsserter.cs" />
+    <Compile Include="Bindings\Movies\MovieMapper.cs" />
+    <Compile Include="Bindings\Movies\MovieReader.cs" />
+    <Compile Include="Bindings\Movies\MovieWriter.cs" />
+    <Compile Include="Bindings\Movies\MovieBindings.cs" />
     <Compile Include="Bindings\Persons\PersonAsserter.cs" />
     <Compile Include="Bindings\Persons\PersonBindings.cs" />
     <Compile Include="Bindings\Persons\PersonMapper.cs" />
@@ -85,6 +90,11 @@
     <Compile Include="Bindings\Persons\PersonWriter.cs" />
     <Compile Include="Bindings\ScenarioContextDependencyInjectionExtensions.cs" />
     <Compile Include="Bindings\SpecFlowHooks.cs" />
+    <Compile Include="KeyExamples\Movies\Movies.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Movies.feature</DependentUpon>
+    </Compile>
     <Compile Include="KeyExamples\Persons\Persons.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -94,6 +104,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="KeyExamples\Movies\Movies.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Movies.feature.cs</LastGenOutput>
+    </None>
     <None Include="KeyExamples\Persons\Persons.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Persons.feature.cs</LastGenOutput>
