@@ -2,7 +2,7 @@
 using System.Web.Http;
 using Newtonsoft.Json.Serialization;
 
-namespace AgeroGraphDatabaseDemo {
+namespace Agero.GraphDatabaseDemo {
 	public static class WebApiConfig {
 		public static void Register(HttpConfiguration config) {
 			// Web API configuration and services
