@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AgeroGraphDatabaseDemo.Models;
+using Agero.GraphDatabaseDemo.Dto;
+using AgeroGraphDatabaseDemo.Requests;
 using TechTalk.SpecFlow;
 
 namespace AgeroGraphDatabaseDemo.Requirements.Bindings.Persons {

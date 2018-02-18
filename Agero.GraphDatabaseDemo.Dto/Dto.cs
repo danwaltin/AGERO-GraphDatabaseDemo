@@ -1,4 +1,4 @@
-﻿namespace AgeroGraphDatabaseDemo.Models {
+﻿namespace Agero.GraphDatabaseDemo.Dto {
 	public class Dto {
 		public override bool Equals(object obj) {
 			return this.EqualProperties(obj);

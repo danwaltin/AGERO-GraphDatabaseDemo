@@ -1,11 +1,17 @@
 ﻿using System.Collections.Generic;
-using AgeroGraphDatabaseDemo.Controllers;
-using AgeroGraphDatabaseDemo.Models;
+using Agero.GraphDatabaseDemo.Dto;
+using TechTalk.SpecFlow;
 
 namespace AgeroGraphDatabaseDemo.Requirements.Bindings.Persons {
 	class PersonReader {
+		private readonly ScenarioContext _context;
+
+		public PersonReader(ScenarioContext context) {
+			_context = context;
+		}
+
 		public IEnumerable<Person> AllPersons() {
-			var controller = new PersonsController();
+			var controller = _context.PersonsController();
 			return controller.List();
 		}
 	}

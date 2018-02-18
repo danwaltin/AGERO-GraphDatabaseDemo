@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Agero.GraphDatabaseDemo.Dto;
 using Agero.TestHelpers;
-using AgeroGraphDatabaseDemo.Models;
 
 namespace AgeroGraphDatabaseDemo.Requirements.Bindings.Persons {
 	class PersonAsserter {

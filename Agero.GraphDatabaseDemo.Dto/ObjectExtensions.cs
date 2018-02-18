@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace AgeroGraphDatabaseDemo {
+namespace Agero.GraphDatabaseDemo.Dto {
 	public static class ObjectExtensions {
 		public static bool EqualProperties<T>(this T receiver, object other, bool includeId = true) {
 			if (ReferenceEquals(null, other))

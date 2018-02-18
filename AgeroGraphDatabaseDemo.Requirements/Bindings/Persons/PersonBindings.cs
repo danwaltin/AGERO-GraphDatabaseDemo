@@ -1,5 +1,4 @@
-﻿using Agero.TestHelpers;
-using TechTalk.SpecFlow;
+﻿using TechTalk.SpecFlow;
 
 namespace AgeroGraphDatabaseDemo.Requirements.Bindings.Persons {
 	[Binding]
@@ -7,11 +6,13 @@ namespace AgeroGraphDatabaseDemo.Requirements.Bindings.Persons {
 		private readonly PersonMapper _mapper;
 		private readonly PersonWriter _writer;
 		private readonly PersonReader _reader;
+		private readonly PersonAsserter _asserter;
 
-		public PersonBindings() {
+		public PersonBindings(ScenarioContext context) {
 			_mapper = new PersonMapper();
-			_writer = new PersonWriter();
-			_reader = new PersonReader();
+			_writer = new PersonWriter(context);
+			_reader = new PersonReader(context);
+			_asserter = new PersonAsserter();
 		}
 
 		#region Givens, whens and thens
@@ -27,7 +28,7 @@ namespace AgeroGraphDatabaseDemo.Requirements.Bindings.Persons {
 			var actual = _reader.AllPersons();
 			var expected = _mapper.Persons(table);
 
-			new AssertHelper().AssertIEnumerableUnordered(expected, actual);
+			_asserter.AssertPersons(expected, actual);
 		}
 
 		#endregion
