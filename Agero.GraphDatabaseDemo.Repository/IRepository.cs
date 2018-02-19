@@ -4,6 +4,8 @@ using Agero.GraphDatabaseDemo.Dto;
 
 namespace Agero.GraphDatabaseDemo.Repository {
 	public interface IRepository {
+		void Initialize();
+
 		void CreatePerson(CreatePerson command);
 		IEnumerable<Person> ListPersons();
 

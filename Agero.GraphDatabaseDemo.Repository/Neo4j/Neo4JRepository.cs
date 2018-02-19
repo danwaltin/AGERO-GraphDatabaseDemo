@@ -15,6 +15,20 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 			_configuration = configuration;
 		}
 
+		private IDriver Driver =>
+			GraphDatabase.Driver(
+				_configuration.Url,
+				AuthTokens.Basic(_configuration.Username, _configuration.Password));
+
+		public void Initialize() {
+			using (var driver = Driver) {
+				using (var session = driver.Session()) {
+					session.Run("CREATE INDEX ON :Movie(title)");
+					session.Run("CREATE INDEX ON :Person(name)");
+				}
+			}
+		}
+
 		public void CreatePerson(CreatePerson command) {
 			Create($"CREATE (x:Person {{name: \"{command.Name}\"}}) RETURN x");
 		}
@@ -39,11 +53,6 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 				}
 			}
 		}
-
-		private IDriver Driver =>
-			GraphDatabase.Driver(
-				_configuration.Url,
-				AuthTokens.Basic(_configuration.Username, _configuration.Password));
 
 		private void Create(string statement) {
 			using (var driver = Driver) {

@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using Agero.GraphDatabaseDemo.Repository;
 using Autofac;
 using Autofac.Integration.WebApi;
 
@@ -8,6 +9,14 @@ namespace Agero.GraphDatabaseDemo {
 			GlobalConfiguration.Configure(WebApiConfig.Register);
 
 			SetupDependencyInjection();
+
+			InitializeRepository();
+		}
+
+		private void InitializeRepository() {
+			var config = GlobalConfiguration.Configuration;
+			var repository = (IRepository) config.DependencyResolver.GetService(typeof(IRepository));
+			repository.Initialize();
 		}
 
 		private void SetupDependencyInjection() {

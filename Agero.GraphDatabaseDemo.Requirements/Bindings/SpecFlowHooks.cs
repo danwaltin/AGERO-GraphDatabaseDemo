@@ -13,9 +13,10 @@ namespace Agero.GraphDatabaseDemo.Requirements.Bindings {
 		#region Before/After
 
 		[BeforeScenario]
-		public void ClearDatabase() {
+		public void InitializeDatabase() {
 			var repository = _context.Resolve<IRepository>();
 			repository.Clear();
+			repository.Initialize();
 		}
 
 		#endregion

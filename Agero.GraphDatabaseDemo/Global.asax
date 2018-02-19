@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="AgeroGraphDatabaseDemo.WebApiApplication" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Agero.GraphDatabaseDemo.WebApiApplication" Language="C#" %>
