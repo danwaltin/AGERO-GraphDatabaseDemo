@@ -45,6 +45,11 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 			return List("MATCH (n:Movie) RETURN n", "n", Movie);
 		}
 
+		public void AddActorToMovie(AddActorToMovie command) {
+			Create(
+				$"MATCH(p: Person {{ name: '{command.ActorName}' }}),(m: Movie {{ title: '{command.MovieTitle}' }})\nMERGE(p) -[r: ACTED_IN]->(m)");
+		}
+
 		public void Clear() {
 			using (var driver = Driver) {
 				using (var session = driver.Session()) {

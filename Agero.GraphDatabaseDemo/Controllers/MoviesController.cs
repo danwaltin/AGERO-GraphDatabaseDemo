@@ -25,7 +25,7 @@ namespace Agero.GraphDatabaseDemo.Controllers {
 
 		[HttpPost]
 		public void AddActorToMovie(AddActorToMovie command) {
-			throw new System.NotImplementedException();
+			_repository.AddActorToMovie(command);
 		}
 	}
 }

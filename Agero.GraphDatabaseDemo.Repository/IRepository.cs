@@ -12,6 +12,8 @@ namespace Agero.GraphDatabaseDemo.Repository {
 		void CreateMovie(CreateMovie command);
 		IEnumerable<Movie> ListMovies();
 
+		void AddActorToMovie(AddActorToMovie command);
+
 		void Clear();
 	}
 }
