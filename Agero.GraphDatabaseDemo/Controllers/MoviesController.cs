@@ -22,5 +22,10 @@ namespace Agero.GraphDatabaseDemo.Controllers {
 		public IEnumerable<Movie> List() {
 			return _repository.ListMovies();
 		}
+
+		[HttpPost]
+		public void AddActorToMovie(AddActorToMovie command) {
+			_repository.AddActorToMovie(command);
+		}
 	}
 }

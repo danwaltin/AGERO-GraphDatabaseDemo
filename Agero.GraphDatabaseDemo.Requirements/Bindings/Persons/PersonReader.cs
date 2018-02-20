@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Agero.GraphDatabaseDemo.Controllers;
 using Agero.GraphDatabaseDemo.Dto;
 using TechTalk.SpecFlow;
 
@@ -11,8 +12,15 @@ namespace Agero.GraphDatabaseDemo.Requirements.Bindings.Persons {
 		}
 
 		public IEnumerable<Person> AllPersons() {
-			var controller = _context.PersonsController();
-			return controller.List();
+			return PersonsController().List();
+		}
+
+		public int SixDegreesIndex(string fromPerson, string toPerson) {
+			return PersonsController().SixDegreesIndex(fromPerson, toPerson);
+		}
+
+		private PersonsController PersonsController() {
+			return _context.PersonsController();
 		}
 	}
 }

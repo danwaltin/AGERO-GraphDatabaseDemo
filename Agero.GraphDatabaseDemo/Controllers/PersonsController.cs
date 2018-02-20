@@ -22,5 +22,10 @@ namespace Agero.GraphDatabaseDemo.Controllers {
 		public IEnumerable<Person> List() {
 			return _repository.ListPersons();
 		}
+
+		[HttpGet]
+		public int SixDegreesIndex(string fromPerson, string toPerson) {
+			throw new System.NotImplementedException();
+		}
 	}
 }
