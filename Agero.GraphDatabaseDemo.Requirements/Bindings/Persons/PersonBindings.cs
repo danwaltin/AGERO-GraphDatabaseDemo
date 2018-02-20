@@ -1,4 +1,5 @@
-﻿using TechTalk.SpecFlow;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TechTalk.SpecFlow;
 
 namespace Agero.GraphDatabaseDemo.Requirements.Bindings.Persons {
 	[Binding]
@@ -15,22 +16,25 @@ namespace Agero.GraphDatabaseDemo.Requirements.Bindings.Persons {
 			_asserter = new PersonAsserter();
 		}
 
-		#region Givens, whens and thens
-
+		[Given(@"the persons")]
 		[When(@"adding the persons")]
-		public void WhenAddingThePersons(Table table) {
+		public void CreatePersons(Table table) {
 			_writer.CreatePersons(
 				_mapper.CreateCommands(table));
 		}
 
 		[Then(@"the following persons should be available")]
-		public void ThenTheFollowingPersonsShouldBeAvailable(Table table) {
+		public void AssertAvailablePersons(Table table) {
 			var actual = _reader.AllPersons();
 			var expected = _mapper.Persons(table);
 
 			_asserter.AssertPersons(expected, actual);
 		}
 
-		#endregion
+		[Then(@"the six degrees index from '(.*)' to '(.*)' is (.*)")]
+		public void AsseetSixDegreesIndex(string fromPerson, string toPerson, int expected) {
+			var actual = _reader.SixDegreesIndex(fromPerson, toPerson);
+			Assert.AreEqual(expected, actual);
+		}
 	}
 }

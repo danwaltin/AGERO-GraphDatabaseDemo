@@ -15,22 +15,25 @@ namespace Agero.GraphDatabaseDemo.Requirements.Bindings.Movies {
 			_asserter = new MovieAsserter();
 		}
 
-		#region Givens, whens and thens
-
+		[Given(@"the movies")]
 		[When(@"adding the movies")]
-		public void WhenAddingTheMovies(Table table) {
+		public void CreateMovies(Table table) {
 			_writer.CreateMovies(
 				_mapper.CreateCommands(table));
 		}
 
+		[When(@"the movie '(.*)' has the actors")]
+		public void AddActorsToMovie(string movieTitle, Table table) {
+			_writer.AddActorsToMovies(
+				_mapper.AddActorToMovieCommands(movieTitle, table));
+		}
+
 		[Then(@"the following movies should be available")]
-		public void ThenTheFollowingMoviesShouldBeAvailable(Table table) {
+		public void AssertAvailableMovies(Table table) {
 			var actual = _reader.AllMovies();
 			var expected = _mapper.Persons(table);
 
 			_asserter.AssertMovies(expected, actual);
 		}
-
-		#endregion
 	}
 }
