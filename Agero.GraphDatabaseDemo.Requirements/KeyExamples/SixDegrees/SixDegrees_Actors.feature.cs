@@ -25,7 +25,7 @@ namespace Agero.GraphDatabaseDemo.Requirements.KeyExamples.SixDegrees
         
         private Microsoft.VisualStudio.TestTools.UnitTesting.TestContext _testContext;
         
-#line 1 "SixDegrees.feature"
+#line 1 "SixDegrees_Actors.feature"
 #line hidden
         
         public virtual Microsoft.VisualStudio.TestTools.UnitTesting.TestContext TestContext
