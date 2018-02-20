@@ -13,6 +13,7 @@ namespace Agero.GraphDatabaseDemo.Repository {
 		IEnumerable<Movie> ListMovies();
 
 		void AddActorToMovie(AddActorToMovie command);
+		void AddDirectorToMovie(AddDirectorToMovie command);
 
 		IEnumerable<PathNode> ShortestPath(string fromPerson, string toPerson);
 

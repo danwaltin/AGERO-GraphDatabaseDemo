@@ -14,6 +14,10 @@ namespace Agero.GraphDatabaseDemo.Requirements.Bindings.Movies {
 			return table.Rows.Select(r => new AddActorToMovie { ActorName = r.Name(), MovieTitle = movieTitle });
 		}
 
+		public AddDirectorToMovie AddDirectorToMovieCommand(string movieTitle, string directorName) {
+			return new AddDirectorToMovie { DirectorName = directorName, MovieTitle = movieTitle };
+		}
+
 		public IEnumerable<Movie> Persons(Table table) {
 			return table.Rows.Select(r => new Movie { Title = r.Title() });
 		}

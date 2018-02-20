@@ -21,6 +21,10 @@ namespace Agero.GraphDatabaseDemo.Requirements.Bindings.Movies {
 				MoviesController().AddActorToMovie(command);
 		}
 
+		public void AddDirectorToMovie(AddDirectorToMovie command) {
+			MoviesController().AddDirectorToMovie(command);
+		}
+
 		private MoviesController MoviesController() {
 			return _context.MoviesController();
 		}

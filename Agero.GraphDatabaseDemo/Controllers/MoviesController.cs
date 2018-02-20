@@ -27,5 +27,10 @@ namespace Agero.GraphDatabaseDemo.Controllers {
 		public void AddActorToMovie(AddActorToMovie command) {
 			_repository.AddActorToMovie(command);
 		}
+
+		[HttpPost]
+		public void AddDirectorToMovie(AddDirectorToMovie command) {
+			_repository.AddDirectorToMovie(command);
+		}
 	}
 }
