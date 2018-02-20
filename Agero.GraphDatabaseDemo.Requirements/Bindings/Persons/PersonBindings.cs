@@ -23,6 +23,11 @@ namespace Agero.GraphDatabaseDemo.Requirements.Bindings.Persons {
 				_mapper.CreateCommands(table));
 		}
 
+		[When(@"adding a person without a name")]
+		public void CreatePersonWithoutAName() {
+			_writer.CreatePersonWithName(null);
+		}
+
 		[Then(@"the following persons should be available")]
 		public void AssertAvailablePersons(Table table) {
 			var actual = _reader.AllPersons();
