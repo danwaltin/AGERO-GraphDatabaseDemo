@@ -30,7 +30,8 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 		}
 
 		public void CreatePerson(CreatePerson command) {
-			Create($"CREATE (x:Person {{name: \"{command.Name}\"}}) RETURN x");
+			RunStatementInTransaction(
+				$"CREATE (x:Person {{name: \"{command.Name}\"}}) RETURN x");
 		}
 
 		public IEnumerable<Person> ListPersons() {
@@ -38,7 +39,8 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 		}
 
 		public void CreateMovie(CreateMovie command) {
-			Create($"CREATE (x:Movie {{title: \"{command.Title}\"}}) RETURN x");
+			RunStatementInTransaction(
+				$"CREATE (x:Movie {{title: \"{command.Title}\"}}) RETURN x");
 		}
 
 		public IEnumerable<Movie> ListMovies() {
@@ -46,9 +48,34 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 		}
 
 		public void AddActorToMovie(AddActorToMovie command) {
-			Create(
-				$"MATCH(p: Person {{ name: '{command.ActorName}' }}),(m: Movie {{ title: '{command.MovieTitle}' }})\nMERGE(p) -[r: ACTED_IN]->(m)");
+			RunStatementInTransaction(
+				$"MATCH(p:Person {{ name: '{command.ActorName}' }}),(m:Movie {{ title: '{command.MovieTitle}' }})\nMERGE(p) -[r:ACTED_IN]->(m)");
 		}
+
+		public IEnumerable<PathNode> ShortestPath(string fromPerson, string toPerson) {
+			//return List($"MATCH p=shortestPath((from:Person {{name:'{fromPerson}'}})-[*]-(to:Person {{name:'{toPerson}'}})) return length(p)", "p", PathNode);
+
+			var statement = $"MATCH p=shortestPath((from:Person {{name:'{fromPerson}'}})-[*]-(to:Person {{name:'{toPerson}'}})) return p";
+
+
+			using (var driver = Driver) {
+				using (var session = driver.Session()) {
+					var r = session.Run(statement);
+					var x = r.Peek();
+					if (x == null)
+						return new List<PathNode>();
+					var plupp = x.Values["p"] as IPath;
+					var nodes = new List<PathNode>();
+
+					foreach (var node in plupp.Nodes) {
+						nodes.Add(PathNode(node));
+					}
+					return nodes;
+				}
+			}
+
+		}
+
 
 		public void Clear() {
 			using (var driver = Driver) {
@@ -59,7 +86,7 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 			}
 		}
 
-		private void Create(string statement) {
+		private void RunStatementInTransaction(string statement) {
 			using (var driver = Driver) {
 				using (var session = driver.Session()) {
 					using (var transaction = session.BeginTransaction()) {
@@ -78,6 +105,31 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 			return new Movie { Title = node.Properties["title"].ToString() };
 		}
 
+		private PathNode PathNode(INode node) {
+			return new PathNode { NodeType = PathNodeType(node), NodeInfo = PathNodeInfo(node)};
+		}
+
+		private string PathNodeType(INode node) {
+			if (node.Labels.Contains("Person"))
+				return "Person";
+
+			if (node.Labels.Contains("Movie"))
+				return "Movie";
+
+			throw new ArgumentException($"Unexpected labels for node: [{string.Join(", ", node.Labels)}]");
+		}
+
+		private string PathNodeInfo(INode node) {
+			if (node.Labels.Contains("Person"))
+				return node.Properties["name"].ToString();
+
+			if (node.Labels.Contains("Movie"))
+				return node.Properties["title"].ToString();
+
+			throw new ArgumentException($"Unexpected labels for node: [{string.Join(", ", node.Labels)}]");
+
+		}
+
 		private IEnumerable<T> List<T>(string statement, string returnKey, Func<INode, T> create) {
 			return GetNodes(statement, returnKey).Select(create).ToList();
 		}
@@ -86,6 +138,7 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 			using (var driver = Driver) {
 				using (var session = driver.Session()) {
 					var result = session.Run(statement);
+
 					return result.Select(record => record[returnKey].As<INode>()).ToList();
 				}
 			}

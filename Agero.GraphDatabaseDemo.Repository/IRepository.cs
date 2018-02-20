@@ -14,6 +14,8 @@ namespace Agero.GraphDatabaseDemo.Repository {
 
 		void AddActorToMovie(AddActorToMovie command);
 
+		IEnumerable<PathNode> ShortestPath(string fromPerson, string toPerson);
+
 		void Clear();
 	}
 }
