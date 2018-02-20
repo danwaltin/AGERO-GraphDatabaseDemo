@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using Agero.GraphDatabaseDemo.Commands;
@@ -15,7 +16,12 @@ namespace Agero.GraphDatabaseDemo.Controllers {
 
 		[HttpPost]
 		public IHttpActionResult Create(CreatePerson command) {
-			_repository.CreatePerson(command);
+			try {
+				_repository.CreatePerson(command);
+			}
+			catch (Exception ex) {
+				System.Diagnostics.Debug.WriteLine(ex.Message);
+			}
 			return Ok();
 		}
 

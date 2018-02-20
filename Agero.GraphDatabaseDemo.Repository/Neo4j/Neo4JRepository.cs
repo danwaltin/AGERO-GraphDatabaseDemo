@@ -29,7 +29,9 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 			using (var driver = Driver) {
 				using (var session = driver.Session()) {
 					session.Run($"CREATE INDEX ON :{Movie}({Title})");
-					session.Run($"CREATE INDEX ON :{Person}({Name})");
+
+					session.Run($"CREATE CONSTRAINT ON (p:{Person}) ASSERT p.{Name} IS UNIQUE");
+					session.Run($"CREATE CONSTRAINT ON (p:{Person}) ASSERT exists(p.{Name})");
 				}
 			}
 		}
@@ -37,14 +39,6 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 		public void CreatePerson(CreatePerson command) {
 			RunStatementInTransaction(
 				$"CREATE (x:{Person} {CreateProperty(Name, command.Name)}) RETURN x");
-		}
-
-		private string CreateProperty(string propertyName, string propertyValue) {
-			if (propertyValue == null)
-				return string.Empty;
-
-			return $"{{{propertyName}: \"{propertyValue}\"}}";
-
 		}
 
 		public IEnumerable<Person> ListPersons() {
@@ -79,9 +73,17 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 			using (var driver = Driver) {
 				using (var session = driver.Session()) {
 					DeleteNodes(session);
-					DeleteIndices(session);
+					DeleteConstraints(session);
+					DeleteIndexes(session);
 				}
 			}
+		}
+
+		private string CreateProperty(string propertyName, string propertyValue) {
+			if (propertyValue == null)
+				return string.Empty;
+
+			return $"{{{propertyName}: \"{propertyValue}\"}}";
 		}
 
 		private void CreateRelation(string personName, string relation, string movieTitle) {
@@ -164,13 +166,25 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 			} while (deletedNodes == BatchSizeDelete);
 		}
 
-		private void DeleteIndices(IStatementRunner runner) {
+		private void DeleteConstraints(IStatementRunner runner) {
+			var indexResult = runner.Run("CALL db.constraints()");
+			using (var enumerator = indexResult.GetEnumerator()) {
+				while (enumerator.MoveNext()) {
+					var record = enumerator.Current;
+					if (record != null) {
+						var statement = $"DROP {record.Values["description"]} ";
+						runner.Run(statement);
+					}
+				}
+			}
+		}
+
+		private void DeleteIndexes(IStatementRunner runner) {
 			var indexResult = runner.Run("CALL db.indexes()");
 			using (var enumerator = indexResult.GetEnumerator()) {
 				while (enumerator.MoveNext()) {
 					var record = enumerator.Current;
 					if (record != null) {
-						// Example: DROP INDEX ON: Person(personId)
 						var statement = $"DROP {record.Values["description"]} ";
 						runner.Run(statement);
 					}
