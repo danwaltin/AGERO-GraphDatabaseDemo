@@ -40,7 +40,7 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 		}
 
 		private string CreateProperty(string propertyName, string propertyValue) {
-			if (propertyName == null)
+			if (propertyValue == null)
 				return string.Empty;
 
 			return $"{{{propertyName}: \"{propertyValue}\"}}";
