@@ -32,9 +32,9 @@ namespace Agero.GraphDatabaseDemo.Requirements.Bindings.Persons {
 		}
 
 		[Then(@"the six degrees index from '(.*)' to '(.*)' is (.*)")]
-		public void AsseetSixDegreesIndex(string fromPerson, string toPerson, int expected) {
-			var actual = _reader.SixDegreesIndex(fromPerson, toPerson);
-			Assert.AreEqual(expected, actual);
+		public void AsseetSixDegreesIndex(string fromPerson, string toPerson, int expectedIndex) {
+			var actualPath = _reader.SixDegreesIndex(fromPerson, toPerson);
+			Assert.AreEqual(expectedIndex, actualPath.Index);
 		}
 	}
 }

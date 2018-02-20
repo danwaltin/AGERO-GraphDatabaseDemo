@@ -15,7 +15,7 @@ namespace Agero.GraphDatabaseDemo.Requirements.Bindings.Persons {
 			return PersonsController().List();
 		}
 
-		public int SixDegreesIndex(string fromPerson, string toPerson) {
+		public SixDegrees SixDegreesIndex(string fromPerson, string toPerson) {
 			return PersonsController().SixDegreesIndex(fromPerson, toPerson);
 		}
 

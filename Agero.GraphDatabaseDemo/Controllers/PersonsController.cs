@@ -25,15 +25,17 @@ namespace Agero.GraphDatabaseDemo.Controllers {
 		}
 
 		[HttpGet]
-		public int SixDegreesIndex(string fromPerson, string toPerson) {
+		public SixDegrees SixDegreesIndex(string fromPerson, string toPerson) {
 			if (fromPerson == toPerson)
-				return 0;
+				return new SixDegrees { Index = 0 };
 
 			var path = _repository.ShortestPath(fromPerson, toPerson).ToList();
 			if (!path.Any())
-				return -1;
+				return new SixDegrees { Index = -1 };
 
-			return path.Count(node => node.NodeType == Constants.Movie);
+			var index = path.Count(node => node.NodeType == Constants.Movie);
+			var p = $"[{string.Join(" -> ", path.Select(node => $"{node.NodeType}({node.NodeInfo})"))}]";
+			return new SixDegrees { Index = index , Path =  p};
 		}
 	}
 }
