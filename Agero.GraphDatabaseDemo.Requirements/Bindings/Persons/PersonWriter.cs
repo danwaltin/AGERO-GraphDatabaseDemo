@@ -11,9 +11,16 @@ namespace Agero.GraphDatabaseDemo.Requirements.Bindings.Persons {
 		}
 
 		public void CreatePersons(IEnumerable<CreatePerson> commands) {
-			var controller = _context.PersonsController();
 			foreach (var command in commands)
-				controller.Create(command);
+				PersonsController().Create(command);
+		}
+
+		public void CreatePersonWithName(string name) {
+			PersonsController().Create(new CreatePerson { Name = name });
+		}
+
+		private Controllers.PersonsController PersonsController() {
+			return _context.PersonsController();
 		}
 	}
 }

@@ -36,7 +36,15 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 
 		public void CreatePerson(CreatePerson command) {
 			RunStatementInTransaction(
-				$"CREATE (x:{Person} {{{Name}: \"{command.Name}\"}}) RETURN x");
+				$"CREATE (x:{Person} {CreateProperty(Name, command.Name)}) RETURN x");
+		}
+
+		private string CreateProperty(string propertyName, string propertyValue) {
+			if (propertyName == null)
+				return string.Empty;
+
+			return $"{{{propertyName}: \"{propertyValue}\"}}";
+
 		}
 
 		public IEnumerable<Person> ListPersons() {
@@ -46,7 +54,7 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 
 		public void CreateMovie(CreateMovie command) {
 			RunStatementInTransaction(
-				$"CREATE (x:{Movie} {{{Title}: \"{command.Title}\"}}) RETURN x");
+				$"CREATE (x:{Movie} {CreateProperty(Title, command.Title)}) RETURN x");
 		}
 
 		public IEnumerable<Movie> ListMovies() {

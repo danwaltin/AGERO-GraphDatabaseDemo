@@ -111,6 +111,71 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Name must be unique")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Persons")]
+        public virtual void NameMustBeUnique()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Name must be unique", ((string[])(null)));
+#line 14
+this.ScenarioSetup(scenarioInfo);
+#line hidden
+            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name"});
+            table3.AddRow(new string[] {
+                        "Ada Lovelace"});
+            table3.AddRow(new string[] {
+                        "Alan Turing"});
+#line 15
+ testRunner.Given("the persons", ((string)(null)), table3, "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name"});
+            table4.AddRow(new string[] {
+                        "Alan Turing"});
+#line 20
+ testRunner.When("adding the persons", ((string)(null)), table4, "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name"});
+            table5.AddRow(new string[] {
+                        "Ada Lovelace"});
+            table5.AddRow(new string[] {
+                        "Alan Turing"});
+#line 24
+ testRunner.Then("the following persons should be available", ((string)(null)), table5, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Name is mandatory")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Persons")]
+        public virtual void NameIsMandatory()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Name is mandatory", ((string[])(null)));
+#line 29
+this.ScenarioSetup(scenarioInfo);
+#line hidden
+            TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name"});
+            table6.AddRow(new string[] {
+                        "Ada Lovelace"});
+#line 30
+ testRunner.Given("the persons", ((string)(null)), table6, "Given ");
+#line 34
+ testRunner.When("adding a person without a name", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name"});
+            table7.AddRow(new string[] {
+                        "Ada Lovelace"});
+#line 36
+ testRunner.Then("the following persons should be available", ((string)(null)), table7, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore
