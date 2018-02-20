@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 using Agero.GraphDatabaseDemo.Commands;
 using Agero.GraphDatabaseDemo.Dto;
@@ -25,7 +26,14 @@ namespace Agero.GraphDatabaseDemo.Controllers {
 
 		[HttpGet]
 		public int SixDegreesIndex(string fromPerson, string toPerson) {
-			throw new System.NotImplementedException();
+			if (fromPerson == toPerson)
+				return 0;
+
+			var path = _repository.ShortestPath(fromPerson, toPerson).ToList();
+			if (!path.Any())
+				return -1;
+
+			return path.Count(node => node.NodeType == Constants.Movie);
 		}
 	}
 }

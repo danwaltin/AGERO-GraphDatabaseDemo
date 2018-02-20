@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Dto.cs" />
     <Compile Include="Movie.cs" />
+    <Compile Include="Node.cs" />
     <Compile Include="ObjectExtensions.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
