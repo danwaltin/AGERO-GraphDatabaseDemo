@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddActorToMovie.cs" />
+    <Compile Include="AddDirectorToMovie.cs" />
     <Compile Include="CreateMovie.cs" />
     <Compile Include="CreatePerson.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

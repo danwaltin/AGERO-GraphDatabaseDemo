@@ -1,4 +1,5 @@
-﻿using TechTalk.SpecFlow;
+﻿using Agero.GraphDatabaseDemo.Commands;
+using TechTalk.SpecFlow;
 
 namespace Agero.GraphDatabaseDemo.Requirements.Bindings.Movies {
 	[Binding]
@@ -34,6 +35,12 @@ namespace Agero.GraphDatabaseDemo.Requirements.Bindings.Movies {
 			var expected = _mapper.Persons(table);
 
 			_asserter.AssertMovies(expected, actual);
+		}
+
+		[When(@"the movie '(.*)' has the director '(.*)'")]
+		public void AddDirectorToMovie(string movieTitle, string directorName) {
+			_writer.AddDirectorToMovie(
+				_mapper.AddDirectorToMovieCommand(movieTitle, directorName ));
 		}
 	}
 }

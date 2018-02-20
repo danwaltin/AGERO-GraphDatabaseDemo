@@ -101,10 +101,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Persons.feature</DependentUpon>
     </Compile>
-    <Compile Include="KeyExamples\SixDegrees\SixDegrees.feature.cs">
+    <Compile Include="KeyExamples\SixDegrees\SixDegrees_Actors.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SixDegrees.feature</DependentUpon>
+      <DependentUpon>SixDegrees_Actors.feature</DependentUpon>
+    </Compile>
+    <Compile Include="KeyExamples\SixDegrees\SixDegrees_ActorsAndDirectors.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SixDegrees_ActorsAndDirectors.feature</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -118,9 +123,13 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Persons.feature.cs</LastGenOutput>
     </None>
-    <None Include="KeyExamples\SixDegrees\SixDegrees.feature">
+    <None Include="KeyExamples\SixDegrees\SixDegrees_Actors.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>SixDegrees.feature.cs</LastGenOutput>
+      <LastGenOutput>SixDegrees_Actors.feature.cs</LastGenOutput>
+    </None>
+    <None Include="KeyExamples\SixDegrees\SixDegrees_ActorsAndDirectors.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SixDegrees_ActorsAndDirectors.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

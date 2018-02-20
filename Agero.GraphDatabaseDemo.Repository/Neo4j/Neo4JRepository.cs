@@ -55,8 +55,11 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 		}
 
 		public void AddActorToMovie(AddActorToMovie command) {
-			RunStatementInTransaction(
-				$"MATCH(p:{Person} {{ {Name}: '{command.ActorName}' }}),(m:{Movie} {{ {Title}: '{command.MovieTitle}' }})\nMERGE(p) -[r:ACTED_IN]->(m)");
+			CreateRelation(command.ActorName, "ACTED_IN", command.MovieTitle);
+		}
+
+		public void AddDirectorToMovie(AddDirectorToMovie command) {
+			CreateRelation(command.DirectorName, "DIRECTED", command.MovieTitle);
 		}
 
 		public IEnumerable<PathNode> ShortestPath(string fromPerson, string toPerson) {
@@ -71,6 +74,11 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 					DeleteIndices(session);
 				}
 			}
+		}
+
+		private void CreateRelation(string personName, string relation, string movieTitle) {
+			RunStatementInTransaction(
+				$"MATCH(p:{Person} {{ {Name}: '{personName}' }}),(m:{Movie} {{ {Title}: '{movieTitle}' }})\nMERGE(p)-[r:{relation}]->(m)");
 		}
 
 		private void RunStatementInTransaction(string statement) {
