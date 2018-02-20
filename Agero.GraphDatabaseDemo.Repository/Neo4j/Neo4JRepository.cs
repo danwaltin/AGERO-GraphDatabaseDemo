@@ -35,7 +35,8 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 		}
 
 		public IEnumerable<Person> ListPersons() {
-			return List("MATCH (n:Person) RETURN n", "n", Person);
+			return List(
+				"MATCH (n:Person) RETURN n", "n", Person);
 		}
 
 		public void CreateMovie(CreateMovie command) {
@@ -44,7 +45,8 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 		}
 
 		public IEnumerable<Movie> ListMovies() {
-			return List("MATCH (n:Movie) RETURN n", "n", Movie);
+			return List(
+				"MATCH (n:Movie) RETURN n", "n", Movie);
 		}
 
 		public void AddActorToMovie(AddActorToMovie command) {
@@ -53,29 +55,9 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 		}
 
 		public IEnumerable<PathNode> ShortestPath(string fromPerson, string toPerson) {
-			//return List($"MATCH p=shortestPath((from:Person {{name:'{fromPerson}'}})-[*]-(to:Person {{name:'{toPerson}'}})) return length(p)", "p", PathNode);
-
-			var statement = $"MATCH p=shortestPath((from:Person {{name:'{fromPerson}'}})-[*]-(to:Person {{name:'{toPerson}'}})) return p";
-
-
-			using (var driver = Driver) {
-				using (var session = driver.Session()) {
-					var r = session.Run(statement);
-					var x = r.Peek();
-					if (x == null)
-						return new List<PathNode>();
-					var plupp = x.Values["p"] as IPath;
-					var nodes = new List<PathNode>();
-
-					foreach (var node in plupp.Nodes) {
-						nodes.Add(PathNode(node));
-					}
-					return nodes;
-				}
-			}
-
+			return ListNodesInPath(
+				$"MATCH p=shortestPath((from:Person {{name:'{fromPerson}'}})-[*]-(to:Person {{name:'{toPerson}'}})) return p", "p", PathNode);
 		}
-
 
 		public void Clear() {
 			using (var driver = Driver) {
@@ -106,7 +88,7 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 		}
 
 		private PathNode PathNode(INode node) {
-			return new PathNode { NodeType = PathNodeType(node), NodeInfo = PathNodeInfo(node)};
+			return new PathNode { NodeType = PathNodeType(node), NodeInfo = PathNodeInfo(node) };
 		}
 
 		private string PathNodeType(INode node) {
@@ -127,21 +109,29 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 				return node.Properties["title"].ToString();
 
 			throw new ArgumentException($"Unexpected labels for node: [{string.Join(", ", node.Labels)}]");
-
 		}
 
 		private IEnumerable<T> List<T>(string statement, string returnKey, Func<INode, T> create) {
-			return GetNodes(statement, returnKey).Select(create).ToList();
+			return List<INode>(statement, returnKey).Select(create).ToList();
 		}
 
-		public IReadOnlyList<INode> GetNodes(string statement, string returnKey) {
+		private IEnumerable<T> ListNodesInPath<T>(string statement, string returnKey, Func<INode, T> create) {
+			return GetNodesInPath(statement, returnKey).Select(create).ToList();
+		}
+
+		public IReadOnlyList<T> List<T>(string statement, string returnKey) {
 			using (var driver = Driver) {
 				using (var session = driver.Session()) {
 					var result = session.Run(statement);
 
-					return result.Select(record => record[returnKey].As<INode>()).ToList();
+					return result.Select(record => record[returnKey].As<T>()).ToList();
 				}
 			}
+		}
+
+		public IReadOnlyList<INode> GetNodesInPath(string statement, string returnKey) {
+			var paths = List<IPath>(statement, returnKey);
+			return paths.SelectMany(p => p.Nodes).ToList();
 		}
 
 		private void DeleteNodes(IStatementRunner runner) {
