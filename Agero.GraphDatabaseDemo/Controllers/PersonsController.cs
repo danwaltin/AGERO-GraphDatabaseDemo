@@ -33,7 +33,7 @@ namespace Agero.GraphDatabaseDemo.Controllers {
 			if (!path.Any())
 				return -1;
 
-			return path.Count(node => node.NodeType == "Movie");
+			return path.Count(node => node.NodeType == Constants.Movie);
 		}
 	}
 }

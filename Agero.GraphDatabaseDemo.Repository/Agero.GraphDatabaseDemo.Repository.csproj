@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Neo4j\Neo4JRepository.cs" />
     <Compile Include="Neo4j\RepositoryConfiguration.cs" />

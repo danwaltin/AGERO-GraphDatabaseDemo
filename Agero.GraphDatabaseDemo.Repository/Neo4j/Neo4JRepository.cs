@@ -9,6 +9,11 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 	public class Neo4JRepository : IRepository {
 		private const int BatchSizeDelete = 10000;
 
+		private const string Movie = Constants.Movie;
+		private const string Person = "Person";
+		private const string Title = "title";
+		private const string Name = "name";
+
 		private readonly RepositoryConfiguration _configuration;
 
 		public Neo4JRepository(RepositoryConfiguration configuration) {
@@ -23,40 +28,40 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 		public void Initialize() {
 			using (var driver = Driver) {
 				using (var session = driver.Session()) {
-					session.Run("CREATE INDEX ON :Movie(title)");
-					session.Run("CREATE INDEX ON :Person(name)");
+					session.Run($"CREATE INDEX ON :{Movie}({Title})");
+					session.Run($"CREATE INDEX ON :{Person}({Name})");
 				}
 			}
 		}
 
 		public void CreatePerson(CreatePerson command) {
 			RunStatementInTransaction(
-				$"CREATE (x:Person {{name: \"{command.Name}\"}}) RETURN x");
+				$"CREATE (x:{Person} {{{Name}: \"{command.Name}\"}}) RETURN x");
 		}
 
 		public IEnumerable<Person> ListPersons() {
 			return List(
-				"MATCH (n:Person) RETURN n", "n", Person);
+				$"MATCH (n:{Person}) RETURN n", "n", PersonFromNode);
 		}
 
 		public void CreateMovie(CreateMovie command) {
 			RunStatementInTransaction(
-				$"CREATE (x:Movie {{title: \"{command.Title}\"}}) RETURN x");
+				$"CREATE (x:{Movie} {{{Title}: \"{command.Title}\"}}) RETURN x");
 		}
 
 		public IEnumerable<Movie> ListMovies() {
 			return List(
-				"MATCH (n:Movie) RETURN n", "n", Movie);
+				$"MATCH (n:{Movie}) RETURN n", "n", MovieFromNode);
 		}
 
 		public void AddActorToMovie(AddActorToMovie command) {
 			RunStatementInTransaction(
-				$"MATCH(p:Person {{ name: '{command.ActorName}' }}),(m:Movie {{ title: '{command.MovieTitle}' }})\nMERGE(p) -[r:ACTED_IN]->(m)");
+				$"MATCH(p:{Person} {{ {Name}: '{command.ActorName}' }}),(m:{Movie} {{ {Title}: '{command.MovieTitle}' }})\nMERGE(p) -[r:ACTED_IN]->(m)");
 		}
 
 		public IEnumerable<PathNode> ShortestPath(string fromPerson, string toPerson) {
 			return ListNodesInPath(
-				$"MATCH p=shortestPath((from:Person {{name:'{fromPerson}'}})-[*]-(to:Person {{name:'{toPerson}'}})) return p", "p", PathNode);
+				$"MATCH p=shortestPath((from:{Person} {{{Name}:'{fromPerson}'}})-[*]-(to:{Person} {{{Name}:'{toPerson}'}})) return p", "p", PathNodeFromNode);
 		}
 
 		public void Clear() {
@@ -79,34 +84,34 @@ namespace Agero.GraphDatabaseDemo.Repository.Neo4j {
 			}
 		}
 
-		private Person Person(INode node) {
-			return new Person { Name = node.Properties["name"].ToString() };
+		private Person PersonFromNode(INode node) {
+			return new Person { Name = node.Properties[Name].ToString() };
 		}
 
-		private Movie Movie(INode node) {
-			return new Movie { Title = node.Properties["title"].ToString() };
+		private Movie MovieFromNode(INode node) {
+			return new Movie { Title = node.Properties[Title].ToString() };
 		}
 
-		private PathNode PathNode(INode node) {
+		private PathNode PathNodeFromNode(INode node) {
 			return new PathNode { NodeType = PathNodeType(node), NodeInfo = PathNodeInfo(node) };
 		}
 
 		private string PathNodeType(INode node) {
-			if (node.Labels.Contains("Person"))
-				return "Person";
+			if (node.Labels.Contains(Person))
+				return Person;
 
-			if (node.Labels.Contains("Movie"))
-				return "Movie";
+			if (node.Labels.Contains(Movie))
+				return Movie;
 
 			throw new ArgumentException($"Unexpected labels for node: [{string.Join(", ", node.Labels)}]");
 		}
 
 		private string PathNodeInfo(INode node) {
-			if (node.Labels.Contains("Person"))
-				return node.Properties["name"].ToString();
+			if (node.Labels.Contains(Person))
+				return node.Properties[Name].ToString();
 
-			if (node.Labels.Contains("Movie"))
-				return node.Properties["title"].ToString();
+			if (node.Labels.Contains(Movie))
+				return node.Properties[Title].ToString();
 
 			throw new ArgumentException($"Unexpected labels for node: [{string.Join(", ", node.Labels)}]");
 		}
